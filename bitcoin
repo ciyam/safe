@@ -1,0 +1,5 @@
+if [ ! -f .bitcoin/bitcoin.conf ]; then
+ mkdir .bitcoin
+ echo "rpc_password=none">.bitcoin/bitcoin.conf
+fi
+./bitcoind &

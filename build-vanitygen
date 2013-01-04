@@ -1,0 +1,6 @@
+#!/bin/bash
+# Copyright (c) 2012 CIYAM Open Developers
+
+cd vanitygen-master
+make >/dev/null
+cp vanitygen ..

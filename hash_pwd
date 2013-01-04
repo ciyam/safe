@@ -1,0 +1,46 @@
+#!/bin/bash
+# Copyright (c) 2012 CIYAM Open Developers
+
+read -p "User Key: " ukey
+
+if [ ! -f stretch ]; then
+ g++ -pipe -O3 -fipa-pta -ffast-math -fno-defer-pop -o stretch stretch.cpp
+fi
+
+password=0
+repeated=1
+
+while [ ! "$password" = "$repeated" ]
+do
+  if [ ! "$repeated" = "1" ]; then
+   echo "(password and repeat did not match - try again)"
+  fi
+
+  read -s -p "Password: " password
+  echo ""
+  if [ "$1" == "no_repeat" ]; then
+   repeated="$password"
+  else
+   read -s -p "(repeat): " repeated
+   echo ""
+  fi
+done
+
+opassword=$password
+
+password=`./stretch "$password$ukey"`
+password=`echo $password | sha256sum`
+
+# Remove the trailing " -" output from sha256.
+password=`echo $password | cut -d ' ' -f 1`
+
+if [ ! -f scrypt ]; then
+  ./build-scrypt
+fi
+
+echo $password >hash
+./scrypt enc hash password $opassword
+rm hash
+
+echo $password | xclip
+echo Hashed stretched password is now on the clipboard...

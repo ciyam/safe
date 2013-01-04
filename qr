@@ -1,0 +1,12 @@
+#!/bin/bash
+# Copyright (c) 2012 CIYAM Open Developers
+
+if [ $# -lt 1 ]; then
+ echo Usage: qr [file]
+else
+ cat $1 | qrencode -o $1.png
+ if [ -f "$1.png" ]; then
+  echo "Created $1.png"
+ fi
+fi
+

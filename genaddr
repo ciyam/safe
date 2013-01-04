@@ -1,0 +1,27 @@
+#!/bin/bash
+# Copyright (c) 2012 CIYAM Open Developers
+
+gpg_1_opts="--armor --recipient tux --encrypt --sign --local-user local@domain.net --trust-model always --batch --passphrase-fd 0"
+gpg_2_opts="--armor --recipient other --encrypt --sign --local-user other@domain.com --trust-model always --batch --passphrase-fd 0"
+
+# Use simple program to split out the private key for GPG encryption.
+./vanitygen 1 | ./w | gpg $gpg_1_opts >y
+# use this instead of the above if 2-factor security is desired...
+#./vanitygen 1 | ./w | gpg $gpg_1_opts | ./w 2 | gpg $gpg_2_opts >y
+cat x y >z
+rm x y
+
+cat z
+
+# Now rename the output file to the bitcoin address.
+cat z | grep Address > z.sh
+sed -i 's/Address: /address=/g' z.sh
+echo "echo \$address>\$address">>z.sh
+echo "xclip \$address">>z.sh
+echo "./qr \$address">>z.sh
+echo "mv z \$address">>z.sh
+echo "echo \$address is now on the clipboard...">>z.sh
+chmod a+x z.sh
+
+./z.sh
+rm z.sh

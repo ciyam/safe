@@ -1,0 +1,5 @@
+cd scrypt-master
+./configure >/dev/null
+make >/dev/null
+cp scrypt ..
+cd ..

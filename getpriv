@@ -1,0 +1,14 @@
+#!/bin/bash
+# Copyright (c) 2012 CIYAM Open Developers
+
+if [ $# -lt 1 ]; then
+ echo "Usage: getpriv [public key]"
+else
+ password=`./scrypt dec password`
+ echo $password | xclip
+ echo "GPG password is now on the clipboard..."
+
+ gpg --decrypt $1 | grep Privkey | cut -b 10- | xclip
+ echo "Private key for $1 is now on the clipboard..."
+fi
+
