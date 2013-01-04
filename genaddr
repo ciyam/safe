@@ -18,8 +18,9 @@ cat z | grep Address > z.sh
 sed -i 's/Address: /address=/g' z.sh
 echo "echo \$address>\$address">>z.sh
 echo "xclip \$address">>z.sh
-echo "./qr \$address">>z.sh
+echo "./qr z>/dev/null">>z.sh
 echo "mv z \$address">>z.sh
+echo "mv z.png \$address.png">>z.sh
 echo "echo \$address is now on the clipboard...">>z.sh
 chmod a+x z.sh
 
