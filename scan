@@ -1,0 +1,9 @@
+#!/bin/bash
+# Copyright (c) 2012 CIYAM Open Developers
+
+if [ $# -lt 1 ]; then
+ echo "Usage: scan [output file]"
+else
+ ./zbarcam --raw>$1
+fi
+
