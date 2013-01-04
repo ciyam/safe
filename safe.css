@@ -173,6 +173,11 @@ a
    margin-bottom: 15px;
 }
 
+#main #text
+{
+   margin: 60px;
+}
+
 .editdetails
 {
    font-size: 12px;

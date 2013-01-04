@@ -3,12 +3,12 @@ cd zbar-0.10
 make >/dev/null
 cd ..
 
-echo "pushd zbar-0.10/zbarcam">zbarcam
+echo "pushd zbar-0.10/zbarcam>/dev/null">zbarcam
 echo "./zbarcam --raw">>zbarcam
-echo "popd">>zbarcam
+echo "popd>/dev/null">>zbarcam
 chmod a+x zbarcam
 
-echo "pushd zbar-0.10/zbarimg">zbarimg
+echo "pushd zbar-0.10/zbarimg>/dev/null">zbarimg
 echo "./zbarimg ../../\$*">>zbarimg
-echo "popd">>zbarimg
+echo "popd>/dev/null">>zbarimg
 chmod a+x zbarimg

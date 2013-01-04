@@ -1,16 +1,17 @@
-DIALOG=${DIALOG=dialog}
+if [ $# -lt 1 ]; then
+ echo "Usage: signtx [public key]"
+else
+ address=$1
 
-address=`$DIALOG --stdout --title "Choose the address to send from" --fselect $HOME/ 14 48`
-
-if [ "$?" = "0" ]; then
  echo "Now scanning for the raw tx QR code..."
- ./zbarcam > raw_tx
+ ./zbarcam --raw -Sdisable -Sqrcode.enable > raw_tx
  raw_tx=`cat raw_tx`
 
- ./bitcoin &
  ./getpriv $address
  pkey=`xclip -o`
- ./bitcoind -rpc_password=none importprivkey $pkey
- ./bitcoind -rpc_password=none signrawtransaction $raw_tx
+ ./bitcoind -rpc_password=none importprivkey $pkey >txscript
+ ./bitcoind -rpc_password=none signrawtransaction $raw_tx >>txscript
+ chmod a+x txscript
+ ./txscript
 fi
 

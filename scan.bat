@@ -4,7 +4,7 @@ if "%1" == "" goto usage
 if exist "%1" goto error1
 
 pushd "C:\Program Files\ZBar\bin"
-zbarcam --raw >~send.txt
+zbarcam --raw -Sdisable -Sqrcode.enable>~send.txt
 popd
 move "C:\Program Files\ZBar\bin\~send.txt" %1
 type %1

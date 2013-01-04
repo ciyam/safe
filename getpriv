@@ -6,9 +6,12 @@ if [ $# -lt 1 ]; then
 else
  password=`./scrypt dec password`
  echo $password | xclip
- echo "GPG password is now on the clipboard..."
+ echo GPG passphrase is now on the clipboard...
+ sleep 2
 
- gpg --decrypt $1 | grep Privkey | cut -b 10- | xclip
+ gpg --decrypt $1 | grep Privkey | cut -b 10- >x
+ cat x | xclip
+ rm x
  echo "Private key for $1 is now on the clipboard..."
 fi
 

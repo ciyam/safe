@@ -1,0 +1,167 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+<title>CIYAM Open - Using CIYAM Safe</title>
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<meta name="copyright" content="Copyright 2012 CIYAM Open Developers"/>
+
+<link rel="stylesheet" href="safe.css" type="text/css"/>
+</head>
+
+<div id="content">
+<div id="extra_content">
+
+<div id="normal_content">
+<div id="remainder">
+
+<div id="header">
+   <img src="CIYAM_Open.jpg" alt="Header">
+   <div id="navband">
+      <div id="nav">
+      </div >
+   </div>
+</div>
+
+<div id="main">
+<div id="text">
+<pre>
+Instructions for using CIYAM Safe
+---------------------------------
+
+Firstly understand that CIYAM Safe it is not intended to be an "offline wallet" in the way that other offline
+wallets generally work but is instead a set of tools (scripts and 3rd party software packages) that enable an
+offline LiveOS system to be able to be safely used in order to generate Bitcoin addresses and then later sign
+transactions to safely spend all the "unspent outputs" for by only using QR codes to move information between
+the offline and online computers.
+
+The intended usage of an address should be that it has a fixed purpose (such as being payment for a task) and
+that after its "unspent outputs" have been "spent" that it would not be used again. So after any transactions
+have been signed it would be recommended to in fact remove the "wallet" from the LiveOS USB. Also although it
+is not recommended to re-use an address the private key for any address can easily be restored if necessary.
+
+To secure your private keys there are two separate pieces of information used in order to create a passphrase
+for use with GPG. The first part is called a "User Key" and the second is a 5-6 character Password. Of course
+using a longer password will increse the security level, however, as the User Key and Password are "combined"
+then stretched, hashed and fed to "scrypt" there is no need for the password to be longer as it simply is not
+practical for it to be brute-forced (probably even if the User Key was known).
+
+After booting the LiveOS and logging in (as "tux" with password "linux") to install all the tools and scripts
+for CIYAM Safe type:
+
+./install
+
+As per its instructions you next need to prepare your User Key (and decide upon a 5-6 character password) and
+then type:
+
+./init
+
+The User Key is not handled like a password in that it is echoed to the screen so it should to be longer than
+the password (recommended 20+ characters) and should be written down and safely stored. If storing the key as
+plain text is a concern then the use of a tool such as "memory_key.html" (included) could be used in order to
+generate a key from a personal memory that you can write down a clue instead of the User Key itself.
+
+Once you have typed in the User Key and the Password (you will be prompted to repeat the password as it isn't
+echoed to the screen) then it will perform the stretching, hashing and finally "scrypt" encryption of the GPG
+passphrase (which you don't need to even look at). Note that depending upon hardware this can take a while to
+perform (but unless needing to do a "recovery" is just a one-off occurrence).
+
+The GPG public key and encrypted private (armor exported) keys are written to "tux.pub.gpg" and "tux.sec.gpg"
+and you should next safely copy these to your online computer by opening each of the following QR code images
+in Firefox (enlarge the image size to fill up most of the screen with the QR code) and then scan each of them
+using the webcam on your online computer.
+
+tux.pub.gpg.png
+tux.sec.gpg.00.png
+tux.sec.gpg.01.png
+
+./scan tux.pub.gpg.txt
+(now hold the offline PC's screen close enough to the online computer's webcam to scan the code and after the
+QR code has successfully been scanned then close ZBar)
+
+./scan tux.sec.gpg.txt
+(do the same but this time first scan "tux.sec.gpg.00.png" and the next scan "tux.sec.gpg.01.png" before then
+closing ZBar and then you will need to remove the extra line break in the output file that was inserted after
+the first scan)
+
+The GPG public key used for signing on the offline computer needs to also be transferred across to the online
+computer (the private key does not matter as GPG encrypted files are only ever sent *from* it not *to* it and
+in the event of having to perform a recovery a new local GPG key pair will be created).
+
+local.pub.gpg.png
+./scan local.pub.gpg.txt
+
+After successfully transferring the GPG private key and the two public keys via QR code it would be advisable
+to now create backups of these files (including at least one "off-site" backup).
+
+
+Generating and using a new Address
+----------------------------------
+First run the following script on your offline computer:
+
+./genaddr
+
+then in Firefox open up the [address].png file and scan this with your online computer's webcam:
+
+./scan new_addr
+(it would be recommended after scanning to rename "new_addr" to the bitcoin address or to some other relevant
+name such as a task id)
+
+Once again it would be advisable to immediately make backups of this new address file before sending bitcoins
+to it.
+
+
+Creating an unsigned transaction
+--------------------------------
+After bitcoins have been sent to the offline generated address to move the "unspent outputs" you will need to
+construct one or more "raw transactions". To find the "unspent outputs" you can use an online service such as
+(blockchain.info) and do a search for the address. From the list of transactions for that address you need to
+then identify the Output Scripts that belong to the address and which are "unspent".
+
+This will look something like:
+OP_DUP OP_HASH160 039ff983382191b1b0e2baedd0d13467690dbcd0 OP_EQUALVERIFY OP_CHECKSIG
+
+Copy this information along with the txid and then issue the following command from within the Satoshi client
+"Debug Window" (console tab).
+
+createrawtransaction "[{\"txid\":\"64f04f8ee1ffa7ef9a052a56cbda2f7489ccdf171bdb58a728108c50d4f5c250\",\"vout\
+":1}]" "{\"1PutTheAddressToSendToInHerexxxxx\":0.099}"\
+
+(note that the escaping here is that suitable for the Windows version of the Satoshi client - see the offline
+signrawtransaction for how the escaping should be done if also using Linux for your online computer)
+
+The output should be something similar to the following which you will need to copy:
+
+010000000150c2f5d4508c1028a758db1b17dfcc89742fdacb562a059aefa7ffe18e4ff0640100000000ffffffff01e00f97000000000
+01976a91407dd428c4c6f8752d5ded10edabab12d912de14e88ac00000000
+
+Next you need to append the transaction and unspent output as well as 76a914[scriptPubKey]88ac (replacing the
+[scriptPubKey] with the value 039ff983382191b1b0e2baedd0d13467690dbcd0 that was copied originally):
+
+010000000150c2f5d4508c1028a758db1b17dfcc89742fdacb562a059aefa7ffe18e4ff0640100000000ffffffff01e00f97000000000
+01976a91407dd428c4c6f8752d5ded10edabab12d912de14e88ac00000000 '[{"txid":"64f04f8ee1ffa7ef9a052a56cbda2f7489cc
+df171bdb58a728108c50d4f5c250","vout":1,"scriptPubKey":"76a914039ff983382191b1b0e2baedd0d13467690dbcd088ac"}]'
+
+Now put the raw tx with txid and unspent output information into the clipboard and generate the QR code using
+a free online service such as http://goqr.me/ (there are numerous available). You can use the "check" utility
+to verify that the QR code contains the correct information before continuing.
+
+
+Signing an unsigned transaction
+-------------------------------
+
+./signtx 1PutTheAddressSendingFromHerexxxx
+
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+</div>
+
+</body>
+
+</html>
+
