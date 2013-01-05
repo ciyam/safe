@@ -1,3 +1,6 @@
+#!/bin/bash
+# Copyright (c) 2013 CIYAM Open Developers
+
 cd scrypt-master
 ./configure >/dev/null
 make >/dev/null

@@ -1,5 +1,5 @@
 #!/bin/bash
-# Copyright (c) 2012 CIYAM Open Developers
+# Copyright (c) 2012-2013 CIYAM Open Developers
 
 gpg_1_opts="--armor --recipient tux --encrypt --sign --local-user local@domain.net --trust-model always --batch --passphrase-fd 0"
 gpg_2_opts="--armor --recipient other --encrypt --sign --local-user other@domain.com --trust-model always --batch --passphrase-fd 0"

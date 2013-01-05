@@ -1,4 +1,5 @@
 @echo off
+REM Copyright (c) 2013 CIYAM Open Developers
 
 if "%1" == "" goto usage
 if not exist "%1" goto error1

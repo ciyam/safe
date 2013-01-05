@@ -62,6 +62,10 @@ the password (recommended 20+ characters) and should be written down and safely 
 plain text is a concern then the use of a tool such as "memory_key.html" (included) could be used in order to
 generate a key from a personal memory that you can write down a clue instead of the User Key itself.
 
+=============================================================================================================
+NOTE: When using Firefox on the offline computer always select "Start Private Browsing" (Ctrl+Shift+P) first.
+=============================================================================================================
+
 Once you have typed in the User Key and the Password (you will be prompted to repeat the password as it isn't
 echoed to the screen) then it will perform the stretching, hashing and finally "scrypt" encryption of the GPG
 passphrase (which you don't need to even look at). Note that depending upon hardware this can take a while to
@@ -75,6 +79,8 @@ using the webcam on your online computer.
 tux.pub.gpg.png
 tux.sec.gpg.00.png
 tux.sec.gpg.01.png
+
+(if using Windows on your online computer then omit the ./ prefixes so ./scan will just become scan)
 
 ./scan tux.pub.gpg.txt
 (now hold the offline PC's screen close enough to the online computer's webcam to scan the code and after the
@@ -106,7 +112,7 @@ then in Firefox open up the [address].png file and scan this with your online co
 
 ./scan new_addr
 (it would be recommended after scanning to rename "new_addr" to the bitcoin address or to some other relevant
-name such as a task id)
+name such as a task id or other reference)
 
 Once again it would be advisable to immediately make backups of this new address file before sending bitcoins
 to it.
@@ -117,16 +123,16 @@ Creating an unsigned transaction
 After bitcoins have been sent to the offline generated address to move the "unspent outputs" you will need to
 construct one or more "raw transactions". To find the "unspent outputs" you can use an online service such as
 (blockchain.info) and do a search for the address. From the list of transactions for that address you need to
-then identify the Output Scripts that belong to the address and which are "unspent".
+then identify the Output Scripts that belong to the address and which of them are "unspent".
 
 This will look something like:
 OP_DUP OP_HASH160 039ff983382191b1b0e2baedd0d13467690dbcd0 OP_EQUALVERIFY OP_CHECKSIG
-
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Copy this information along with the txid and then issue the following command from within the Satoshi client
 "Debug Window" (console tab).
 
 createrawtransaction "[{\"txid\":\"62f04f8ee14567ef9a052a56cbda2f7489ccdf17177658a728108c50d4f5c250\",\"vout\
-":1}]" "{\"1PutTheAddressToSendToInHerexxxxx\":0.099}"\
+":1}]" "{\"1PutTheAddressToSendToInHerexxxxx\":0.099}]"
 
 (note that the escaping here is that suitable for the Windows version of the Satoshi client - for the offline
 computer the escaping is instead suitable for Linux so use that formatting if your online computer is running
@@ -142,7 +148,7 @@ Next you need to append the transaction and unspent output as well as 76a914[scr
 
 010000000150c2f5d4508c1028b744db1b17df1239742fdacb562a059aefa766e18e4ff0640100000000ffffffff01e00f97000000000
 01976a91407dd428c4c6f8752d5ded10edabab12d912de14e88ac00000000 '[{"txid":"62f04f8ee14567ef9a052a56cbda2f7489cc
-df17177658a728108c50d4f5c250","vout":1,"scriptPubKey":"76b914039ff583382191b1b0eabaedd0d13467650dbcd088ac"}]'
+df17177658a728108c50d4f5c250","vout":1,"scriptPubKey":"76a914039ff583382191b1b0eabaedd0d13467650dbcd088ac"}]'
 
 Now put the raw tx with txid and unspent output information into the clipboard and generate the QR code using
 a free online service such as http://goqr.me/ (there are numerous available). You can use the "check" utility
@@ -167,16 +173,62 @@ to continue. The private key will then be imported into the offline wallet and t
 have been signed and the QR code "send_tx.png" should be opened in Firefox and enlarged to fill the screen so
 it's ready for the online computer to scan.
 
+It is recommended that even if you intend to use the address that was sent from later you should now kill the
+bitcoind task and remove the wallet (this way even if your USB is stolen the chances of losing any BTC at all
+should be virtually zero).
+
+kill %%
+rm .bitcoin/wallet.dat
+
 
 Sending a signed transaction
 ----------------------------
 
 ./scan send_tx
+(once the transaction has been successfully sent there is no need to keep this file)
 
 The sendrawtransaction command and hex code should now be pasted into the "Debug Window" (console tab) of the
 Satoshi client and then executed.
+
+
+Restoring From Backup
+---------------------
+
+Assuming your LiveOS USB was lost or stolen start by installing the LiveOS again but this time when "init" is
+called add the word "restore" as an argument to it (this will prevent it trying to create the master keys for
+the "tux" user).
+
+Most importantly you need your original User Key and your 5-6 password - without those you will simply not be
+able to restore at all.
+
+./install
+./init restore
+
+After the script has finished back on your online computer use http://goqr.me/ (or similar) to encode each of
+the GPG public and private keys that had be originally created and then on the offline computer use "scan" to
+save them (it would be recommended to break the private key into two parts to avoid using too large a QR code
+for the webcam to be able to read):
+
+./scan tux.pub.gpg
+./scan tux.sec.gpg
+./scan local.pub.gpg
+
+Each of these keys should then next be imported into GPG:
+
+gpg --import tux.pub.gpg
+gpg --import local.pub.gpg
+gpg --import-secret-key tux.sec.gpg
+
+If the LiveOS USB was lost or stolen then it would be advised to create raw tx's to "clean out" any remaining
+"unspent outputs" and also to not use any of the old addresses again.
 </pre>
 </div>
+</div>
+
+<br class=\"clear\"/>
+<div id="footer">
+   <p class="footer" align="center">&copy; 2013 CIYAM Open Developers</p>
+   <br/>
 </div>
 
 </div>

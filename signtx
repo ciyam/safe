@@ -1,3 +1,6 @@
+#!/bin/bash
+# Copyright (c) 2013 CIYAM Open Developers
+
 if [ $# -lt 1 ]; then
  echo "Usage: signtx [public key]"
 else
@@ -9,8 +12,8 @@ else
 
  ./getpriv $address
  pkey=`xclip -o`
- ./bitcoind -rpc_password=none importprivkey $pkey >txscript
- ./bitcoind -rpc_password=none signrawtransaction $raw_tx >>txscript
+ echo "./bitcoind -rpc_password=none importprivkey $pkey" >txscript
+ echo "./bitcoind -rpc_password=none signrawtransaction $raw_tx" >>txscript
 
  chmod a+x txscript
  ./txscript >~signtx

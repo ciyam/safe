@@ -1,5 +1,5 @@
 #!/bin/bash
-# Copyright (c) 2012 CIYAM Open Developers
+# Copyright (c) 2012-2013 CIYAM Open Developers
 
 ./hash_pwd
 
@@ -10,30 +10,33 @@ echo "Building ZBar, Bitcoin and Vanitygen while generating GPG keys..."
 g++ -o w w.cpp &
 
 password=`xclip -o`
-password="${password%?}"
 
-echo "%echo Generating the master key..." >x
-echo "Key-Type: DSA" >>x
-echo "Key-Length: 1024" >>x
-echo "Subkey-Type: ELG-E" >>x
-echo "Subkey-Length: 1024" >>x
-echo "Name-Real: tux master" >>x
-echo "Name-Email: tux@domain.net" >>x
-echo "Expire-Date: 0" >>x
-echo "Passphrase: $password">>x
+if [ ! "$1" = "restore" ]; then
+ echo "%echo Generating the master key..." >x
+ echo "Key-Type: DSA" >>x
+ echo "Key-Length: 1024" >>x
+ echo "Subkey-Type: ELG-E" >>x
+ echo "Subkey-Length: 1024" >>x
+ echo "Name-Real: tux master" >>x
+ echo "Name-Email: tux@domain.net" >>x
+ echo "Expire-Date: 0" >>x
+ echo "Passphrase: $password">>x
 
-gpg --batch --gen-key x
-rm x
+ gpg --batch --gen-key x
+ rm x
+fi
 
 gpg --batch --gen-key gen-key.info
-
-gpg --armor --export tux >tux.pub.gpg
-./qr tux.pub.gpg
 
 gpg --armor --export local >local.pub.gpg
 ./qr local.pub.gpg
 
-gpg --armor --export-secret-key tux >tux.sec.gpg
-split -b 1024 -d tux.sec.gpg tux.sec.gpg.
-ls -1 tux.sec.gpg.0* | xargs -n1 ./qr
+if [ ! "$1" = "restore" ]; then
+ gpg --armor --export tux >tux.pub.gpg
+ ./qr tux.pub.gpg
+
+ gpg --armor --export-secret-key tux >tux.sec.gpg
+ split -b 1024 -d tux.sec.gpg tux.sec.gpg.
+ ls -1 tux.sec.gpg.0* | xargs -n1 ./qr
+fi
 
