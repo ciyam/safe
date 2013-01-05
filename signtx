@@ -11,7 +11,24 @@ else
  pkey=`xclip -o`
  ./bitcoind -rpc_password=none importprivkey $pkey >txscript
  ./bitcoind -rpc_password=none signrawtransaction $raw_tx >>txscript
+
  chmod a+x txscript
- ./txscript
+ ./txscript >~signtx
+
+ cat ~signtx | grep -o '"complete" : true' >x
+ complete=`cat x | grep -o true`
+ rm x
+
+ if [ ! "$complete" = "true" ]; then
+  cat ~signtx
+  echo Error: Invalid tx or tx could not be completed.
+ else
+  echo -n "sendrawtransaction " >send_tx
+  cat ~signtx | grep -o 0100[0-9a-f]*0000 >>send_tx
+  ./qr send_tx
+ fi
+
+ rm ~signtx
+
 fi
 

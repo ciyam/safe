@@ -33,8 +33,8 @@ Instructions for using CIYAM Safe
 Firstly understand that CIYAM Safe it is not intended to be an "offline wallet" in the way that other offline
 wallets generally work but is instead a set of tools (scripts and 3rd party software packages) that enable an
 offline LiveOS system to be able to be safely used in order to generate Bitcoin addresses and then later sign
-transactions to safely spend all the "unspent outputs" for by only using QR codes to move information between
-the offline and online computers.
+transactions to safely spend all the "unspent outputs" by only using QR codes to move information between the
+offline and online computers.
 
 The intended usage of an address should be that it has a fixed purpose (such as being payment for a task) and
 that after its "unspent outputs" have been "spent" that it would not be used again. So after any transactions
@@ -125,23 +125,24 @@ OP_DUP OP_HASH160 039ff983382191b1b0e2baedd0d13467690dbcd0 OP_EQUALVERIFY OP_CHE
 Copy this information along with the txid and then issue the following command from within the Satoshi client
 "Debug Window" (console tab).
 
-createrawtransaction "[{\"txid\":\"64f04f8ee1ffa7ef9a052a56cbda2f7489ccdf171bdb58a728108c50d4f5c250\",\"vout\
+createrawtransaction "[{\"txid\":\"62f04f8ee14567ef9a052a56cbda2f7489ccdf17177658a728108c50d4f5c250\",\"vout\
 ":1}]" "{\"1PutTheAddressToSendToInHerexxxxx\":0.099}"\
 
-(note that the escaping here is that suitable for the Windows version of the Satoshi client - see the offline
-signrawtransaction for how the escaping should be done if also using Linux for your online computer)
+(note that the escaping here is that suitable for the Windows version of the Satoshi client - for the offline
+computer the escaping is instead suitable for Linux so use that formatting if your online computer is running
+Linux also)
 
 The output should be something similar to the following which you will need to copy:
 
-010000000150c2f5d4508c1028a758db1b17dfcc89742fdacb562a059aefa7ffe18e4ff0640100000000ffffffff01e00f97000000000
+010000000150c2f5d4508c1028b744db1b17df1239742fdacb562a059aefa766e18e4ff0640100000000ffffffff01e00f97000000000
 01976a91407dd428c4c6f8752d5ded10edabab12d912de14e88ac00000000
 
 Next you need to append the transaction and unspent output as well as 76a914[scriptPubKey]88ac (replacing the
 [scriptPubKey] with the value 039ff983382191b1b0e2baedd0d13467690dbcd0 that was copied originally):
 
-010000000150c2f5d4508c1028a758db1b17dfcc89742fdacb562a059aefa7ffe18e4ff0640100000000ffffffff01e00f97000000000
-01976a91407dd428c4c6f8752d5ded10edabab12d912de14e88ac00000000 '[{"txid":"64f04f8ee1ffa7ef9a052a56cbda2f7489cc
-df171bdb58a728108c50d4f5c250","vout":1,"scriptPubKey":"76a914039ff983382191b1b0e2baedd0d13467690dbcd088ac"}]'
+010000000150c2f5d4508c1028b744db1b17df1239742fdacb562a059aefa766e18e4ff0640100000000ffffffff01e00f97000000000
+01976a91407dd428c4c6f8752d5ded10edabab12d912de14e88ac00000000 '[{"txid":"62f04f8ee14567ef9a052a56cbda2f7489cc
+df17177658a728108c50d4f5c250","vout":1,"scriptPubKey":"76b914039ff583382191b1b0eabaedd0d13467650dbcd088ac"}]'
 
 Now put the raw tx with txid and unspent output information into the clipboard and generate the QR code using
 a free online service such as http://goqr.me/ (there are numerous available). You can use the "check" utility
@@ -151,8 +152,29 @@ to verify that the QR code contains the correct information before continuing.
 Signing an unsigned transaction
 -------------------------------
 
+Firstly start up Bitcoin (the following script will create the necessary bitcoin.conf file if it has not been
+already created):
+
+./bitcoin
+
+Then execute the "signtx" script with the address whose "unspent outputs" are to be spent:
+
 ./signtx 1PutTheAddressSendingFromHerexxxx
 
+When prompted enter your 5-6 character password (which is used by scrypt to decrypt the GPG master passphrase
+and place it on the clipboard) and when prompted by GPG for the password simply "paste" (i.e. Shift + Insert)
+to continue. The private key will then be imported into the offline wallet and the raw transaction should now
+have been signed and the QR code "send_tx.png" should be opened in Firefox and enlarged to fill the screen so
+it's ready for the online computer to scan.
+
+
+Sending a signed transaction
+----------------------------
+
+./scan send_tx
+
+The sendrawtransaction command and hex code should now be pasted into the "Debug Window" (console tab) of the
+Satoshi client and then executed.
 </pre>
 </div>
 </div>
