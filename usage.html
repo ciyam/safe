@@ -177,7 +177,7 @@ It is recommended that even if you intend to use the address that was sent from 
 bitcoind task and remove the wallet (this way even if your USB is stolen the chances of losing any BTC at all
 should be virtually zero).
 
-kill %%
+kill 12345
 rm .bitcoin/wallet.dat
 
 
@@ -207,17 +207,22 @@ able to restore at all.
 After the script has finished back on your online computer use http://goqr.me/ (or similar) to encode each of
 the GPG public and private keys that had be originally created and then on the offline computer use "scan" to
 save them (it would be recommended to break the private key into two parts to avoid using too large a QR code
-for the webcam to be able to read):
+for the webcam to be able to read and if the webcam on the offline computer is poor quality then maybe do the
+same for the public keys also):
+
+=============================================================================================================
+NOTE: If your online computer is Windows then you may need to replace CRLF with LF after moving the QR codes.
+=============================================================================================================
 
 ./scan tux.pub.gpg
 ./scan tux.sec.gpg
-./scan local.pub.gpg
+./scan old_local.pub.gpg
 
 Each of these keys should then next be imported into GPG:
 
 gpg --import tux.pub.gpg
-gpg --import local.pub.gpg
-gpg --import-secret-key tux.sec.gpg
+gpg --import tux.sec.gpg
+gpg --import old_local.pub.gpg
 
 If the LiveOS USB was lost or stolen then it would be advised to create raw tx's to "clean out" any remaining
 "unspent outputs" and also to not use any of the old addresses again.
