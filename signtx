@@ -2,12 +2,16 @@
 # Copyright (c) 2013 CIYAM Open Developers
 
 if [ $# -lt 1 ]; then
- echo "Usage: signtx [public key]"
+ echo "Usage: signtx [public key] [[image file]]"
 else
  address=$1
 
  echo "Now scanning for the raw tx QR code..."
- ./zbarcam --raw -Sdisable -Sqrcode.enable > raw_tx
+ if [ "$2" = "" ]; then
+  ./zbarcam --raw -Sdisable -Sqrcode.enable>raw_tx
+ else
+  ./zbarimg --raw -Sdisable -Sqrcode.enable $2>raw_tx
+ fi
  raw_tx=`cat raw_tx`
 
  ./getpriv $address
