@@ -71,6 +71,10 @@ echoed to the screen) then it will perform the stretching, hashing and finally "
 passphrase (which you don't need to even look at). Note that depending upon hardware this can take a while to
 perform (but unless needing to do a "recovery" is just a one-off occurrence).
 
+Whilst generating the GPG keys ZBar, Bitcoin and Vanitygen are compiled and depending upon your hardware this
+could take quite a while to complete (wait until the message "Finished building 'bitcoind'..." appears before
+trying to sign a transaction.
+
 The GPG public key and encrypted private (armor exported) keys are written to "tux.pub.gpg" and "tux.sec.gpg"
 and you should next safely copy these to your online computer by opening each of the following QR code images
 in Firefox (enlarge the image size to fill up most of the screen with the QR code) and then scan each of them
@@ -109,6 +113,7 @@ First run the following script on your offline computer:
 ./genaddr
 
 then in Firefox open up the [address].png file and scan this with your online computer's webcam:
+(note use Ctrl-= to enlarge the image as much as possible and then F11 to view it "full screen")
 
 ./scan new_addr
 (it would be recommended after scanning to rename "new_addr" to the bitcoin address or to some other relevant
@@ -131,7 +136,7 @@ OP_DUP OP_HASH160 039ff983382191b1b0e2baedd0d13467690dbcd0 OP_EQUALVERIFY OP_CHE
 Copy this information along with the txid and then issue the following command from within the Satoshi client
 "Debug Window" (console tab).
 
-createrawtransaction "[{\"txid\":\"62f04f8ee14567ef9a052a56cbda2f7489ccdf17177658a728108c50d4f5c250\",\"vout\
+createrawtransaction "[{\"txid\":\"62f04xxxxxReplaceThisWithYourTxIdxxxxxxxxxxxxxxxxxxxxxxxxxx5c250\",\"vout\
 ":1}]" "{\"1PutTheAddressToSendToInHerexxxxx\":0.099}]"
 
 (note that the escaping here is that suitable for the Windows version of the Satoshi client - for the offline
@@ -147,8 +152,10 @@ Next you need to append the transaction and unspent output as well as 76a914[scr
 [scriptPubKey] with the value 039ff983382191b1b0e2baedd0d13467690dbcd0 that was copied originally):
 
 010000000150c2f5d4508c1028b744db1b17df1239742fdacb562a059aefa766e18e4ff0640100000000ffffffff01e00f97000000000
-01976a91407dd428c4c6f8752d5ded10edabab12d912de14e88ac00000000 '[{"txid":"62f04f8ee14567ef9a052a56cbda2f7489cc
-df17177658a728108c50d4f5c250","vout":1,"scriptPubKey":"76a914039ff583382191b1b0eabaedd0d13467650dbcd088ac"}]'
+01976a91407dd428c4c6f8752d5ded10edabab12d912de14e88ac00000000 '[{"txid":"62f04xxxxxReplaceThisWithYourTxIdxxx
+xxxxxxxxxxxxxxxxxxxxxxx5c250","vout":1,"scriptPubKey":"76a914xxxxxxxReplaceWithYourScriptPubKeyxxxxxx88ac"}]'
+
+(for those wondering the 76a914 is "OP_DUP OP_HASH160 PUSH_20BYTES" and 88ac is "OP_EQUALVERIFY OP_CHECKSIG")
 
 Now put the raw tx with txid and unspent output information into the clipboard and generate the QR code using
 a free online service such as http://goqr.me/ (there are numerous available). You can use the "check" utility
