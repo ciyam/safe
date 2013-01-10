@@ -152,8 +152,8 @@ Next you need to append the transaction and unspent output as well as 76a914[scr
 [scriptPubKey] with the value 039ff983382191b1b0e2baedd0d13467690dbcd0 that was copied originally):
 
 010000000150c2f5d4508c1028b744db1b17df1239742fdacb562a059aefa766e18e4ff0640100000000ffffffff01e00f97000000000
-01976a91407dd428c4c6f8752d5ded10edabab12d912de14e88ac00000000 '[{"txid":"62f04xxxxxReplaceThisWithYourTxIdxxx
-xxxxxxxxxxxxxxxxxxxxxxx5c250","vout":1,"scriptPubKey":"76a914xxxxxxxReplaceWithYourScriptPubKeyxxxxxx88ac"}]'
+01976a91407dd428c4c6f8752d5ded10edabab12d912de14e88ac00000000 '[{"txid":"xxxxxxxxxxReplaceThisWithYourTxIdxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxx","vout":1,"scriptPubKey":"76a914xxxxxxxReplaceWithYourScriptPubKeyxxxxxx88ac"}]'
 
 (for those wondering the 76a914 is "OP_DUP OP_HASH160 PUSH_20BYTES" and 88ac is "OP_EQUALVERIFY OP_CHECKSIG")
 
@@ -230,6 +230,9 @@ Each of these keys should then next be imported into GPG:
 gpg --import tux.pub.gpg
 gpg --import tux.sec.gpg
 gpg --import old_local.pub.gpg
+
+./hash_pwd
+(now enter your User Key and short Password to rebuild the password hash required for GPG decoding)
 
 If the LiveOS USB was lost or stolen then it would be advised to create raw tx's to "clean out" any remaining
 "unspent outputs" and also to not use any of the old addresses again.

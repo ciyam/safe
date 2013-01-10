@@ -8,9 +8,9 @@ else
 
  echo "Now scanning for the raw tx QR code..."
  if [ "$2" = "" ]; then
-  ./zbarcam --raw -Sdisable -Sqrcode.enable>raw_tx
+  ./zbarcam>raw_tx
  else
-  ./zbarimg --raw -Sdisable -Sqrcode.enable $2>raw_tx
+  ./zbarimg $2>raw_tx
  fi
  raw_tx=`cat raw_tx`
 

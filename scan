@@ -4,6 +4,6 @@
 if [ $# -lt 1 ]; then
  echo "Usage: scan [output file]"
 else
- ./zbarcam --raw -Sdisable -Sqrcode.enable>$1
+ ./zbarcam>$1
 fi
 

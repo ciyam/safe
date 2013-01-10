@@ -4,6 +4,6 @@
 if [ $# -lt 1 ]; then
  echo "Usage: check [image file]"
 else
- ./zbarimg --raw $1
+ ./zbarimg $1
 fi
 

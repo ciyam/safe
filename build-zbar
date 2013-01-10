@@ -7,11 +7,11 @@ make >/dev/null
 cd ..
 
 echo "pushd zbar-0.10/zbarcam>/dev/null">zbarcam
-echo "./zbarcam --raw">>zbarcam
+echo "./zbarcam --raw -Sdisable -Sqrcode.enable">>zbarcam
 echo "popd>/dev/null">>zbarcam
 chmod a+x zbarcam
 
 echo "pushd zbar-0.10/zbarimg>/dev/null">zbarimg
-echo "./zbarimg ../../\$*">>zbarimg
+echo "./zbarimg --raw -Sdisable -Sqrcode.enable ../../\$*">>zbarimg
 echo "popd>/dev/null">>zbarimg
 chmod a+x zbarimg
