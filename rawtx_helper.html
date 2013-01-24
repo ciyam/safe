@@ -1,0 +1,123 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+<title>CIYAM Open - Raw Transaction Helper</title>
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<meta name="copyright" content="Copyright 2013 CIYAM Open Developers"/>
+
+<link rel="stylesheet" href="safe.css" type="text/css"/>
+</head>
+
+<div id="content">
+<div id="extra_content">
+
+<div id="normal_content">
+<div id="remainder">
+
+<div id="header">
+   <img src="CIYAM_Open.jpg" alt="Header">
+   <div id="navband">
+      <div id="nav">
+      </div >
+   </div>
+</div>
+
+<div id="main">
+<center/>
+<p>&nbsp;</p>
+<h3>1) Search for the <a href="http://blockchain.info">Source Address</a> to find the following then copy and paste the raw tx command into Bitcoin's Console</h3>
+<form name="tx_create" onsubmit="
+var text = 'createrawtransaction &quot;[{\\&quot;txid\\&quot;:\\&quot;';
+text += document.tx_create.txid.value;
+text += '\\&quot;,\\&quot;vout\\&quot;:';
+text += document.tx_create.vout.value;
+text += '}]&quot; &quot;{\\&quot;';
+text += document.tx_create.addr.value;
+text += '\\&quot;:';
+text += document.tx_create.amount.value;
+text += '}]&quot;';
+document.tx_create.data.value = text;
+return false;">
+
+    <label for="txid">
+    Enter 'txid':&nbsp;&nbsp;<input type="text" name="txid" value="" size="70"/>
+    </label>
+
+    <br/>
+    <br/>
+    <label for="addr">
+    Destination Address:&nbsp;&nbsp;<input type="text" name="addr" value="" size="45"/>
+    </label>
+
+    <br/>
+    <br/>
+    <label for="amount">
+    Amount of BTC to Send:&nbsp;&nbsp;<input type="text" name="amount" value="999.99" size="7"/>
+    </label>
+
+    <br/>
+    <br/>
+    <label for="vout">
+    Unspent Output 'vout' #:&nbsp;&nbsp;<input type="text" name="vout" value="0" size="5"/>
+    </label>
+
+    <p>&nbsp;</p>
+    <input type=submit value="Create Raw Transaction Command"/>
+
+    <br/>
+    <br/>
+    <input type="text" name="data" value="" size="150" readonly/>
+</form>
+
+<p>&nbsp;</p>
+<h3>2) Next copy the raw tx output onto the clipboard and enter the 'scriptPubKey' from the above tx's Unspent Output</h3>
+
+<form name="tx_sign" onsubmit="
+var text = document.tx_sign.raw_tx.value;
+text += ' \'[{&quot;txid&quot;:&quot;';
+text += document.tx_create.txid.value;
+text += '&quot;,&quot;vout&quot;:';
+text += document.tx_create.vout.value;
+text += ',&quot;scriptPubKey&quot;:&quot;76a914';
+text += document.tx_sign.script.value;
+text += '88ac&quot;}]\'';
+document.tx_sign.data.value = text;
+return false;">
+
+    <label for="script">
+    Raw Tx:&nbsp;&nbsp;<input type="text" name="raw_tx" value="" size="140"/>
+    </label>
+
+    <br/>
+    <br/>
+    <label for="script">
+    Script Public Key:&nbsp;&nbsp;<input type="text" name="script" value="" size="55"/>
+    </label>
+
+    <p>&nbsp;</p>
+    <input type=submit value="Sign Raw Transaction Information"/>
+
+    <br/>
+    <br/>
+    <input type="text" name="data" value="" size="150" readonly/>
+</form>
+
+<h3>3) Finally copy the above into the clipboard and turn this into a 500 x 500 <a href="http://goqr.me">QR</a> code to scan with your offline computer</h3>
+</div>
+
+<br class="clear"/>
+<div id="footer">
+   <p class="footer" align="center">&copy; 2013 CIYAM Open Developers</p>
+   <br/>
+</div>
+
+</div>
+</div>
+</div>
+
+</body>
+
+</html>
+
