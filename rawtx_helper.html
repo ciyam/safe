@@ -2,32 +2,20 @@
 
 <html>
 <head>
-<title>CIYAM Open - Raw Transaction Helper</title>
+<title>CIYAM Safe - Raw Transaction Helper</title>
 
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-<meta name="copyright" content="Copyright 2013 CIYAM Open Developers"/>
+<meta name="copyright" content="Copyright 2012-2013 CIYAM Developers"/>
 
 <link rel="stylesheet" href="safe.css" type="text/css"/>
 </head>
 
 <div id="content">
-<div id="extra_content">
-
-<div id="normal_content">
-<div id="remainder">
-
-<div id="header">
-   <img src="CIYAM_Open.jpg" alt="Header">
-   <div id="navband">
-      <div id="nav">
-      </div >
-   </div>
-</div>
+<div id="header"><div id="appname"><a href="#">Safe</a></div></div>
 
 <div id="main">
 <center/>
-<p>&nbsp;</p>
-<h3>1) Search for the <a href="http://blockchain.info">Source Address</a> to find the following then copy and paste the raw tx command into Bitcoin's Console</h3>
+<h2>1) Search for the <a href="http://blockchain.info">Source Address</a> to find the following then copy and paste the raw tx command into Bitcoin's Console</h2>
 <form name="tx_create" onsubmit="
 var text = 'createrawtransaction &quot;[{\\&quot;txid\\&quot;:\\&quot;';
 text += document.tx_create.txid.value;
@@ -42,13 +30,13 @@ document.tx_create.data.value = text;
 return false;">
 
     <label for="txid">
-    Enter 'txid':&nbsp;&nbsp;<input type="text" name="txid" value="" size="70"/>
+    Enter 'txid':&nbsp;&nbsp;<input type="text" name="txid" value="" size="75"/>
     </label>
 
     <br/>
     <br/>
     <label for="addr">
-    Destination Address:&nbsp;&nbsp;<input type="text" name="addr" value="" size="45"/>
+    Destination Address:&nbsp;&nbsp;<input type="text" name="addr" value="" size="50"/>
     </label>
 
     <br/>
@@ -72,7 +60,7 @@ return false;">
 </form>
 
 <p>&nbsp;</p>
-<h3>2) Next copy the raw tx output onto the clipboard and enter the 'scriptPubKey' from the above tx's Unspent Output</h3>
+<h2>2) Next copy the raw tx output onto the clipboard and enter the 'scriptPubKey' from the above tx's Unspent Output</h2>
 
 <form name="tx_sign" onsubmit="
 var text = document.tx_sign.raw_tx.value;
@@ -104,17 +92,10 @@ return false;">
     <input type="text" name="data" value="" size="150" readonly/>
 </form>
 
-<h3>3) Finally copy the above into the clipboard and turn this into a 500 x 500 <a href="http://goqr.me">QR</a> code to scan with your offline computer</h3>
+<h2>3) Finally copy the above into the clipboard and turn this into a 500 x 500 <a href="http://goqr.me">QR</a> code to scan with your offline computer</h2>
 </div>
 
-<br class="clear"/>
-<div id="footer">
-   <p class="footer" align="center">&copy; 2013 CIYAM Open Developers</p>
-   <br/>
-</div>
-
-</div>
-</div>
+<div id="login_footer"><p>&copy; 2012-2013 CIYAM Developers</p></div>
 </div>
 
 </body>
