@@ -1,5 +1,5 @@
 #!/bin/bash
-# Copyright (c) 2012 CIYAM Open Developers
+# Copyright (c) 2012 CIYAM Developers
 
 if [ $# -lt 1 ]; then
  echo "Usage: getpriv [public key]"

@@ -1,5 +1,5 @@
 #!/bin/bash
-# Copyright (c) 2013 CIYAM Open Developers
+# Copyright (c) 2013 CIYAM Developers
 
 if [ $# -lt 1 ]; then
  echo "Usage: signtx [public key] [[image file]]"

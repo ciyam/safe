@@ -1,4 +1,4 @@
-// Copyright (c) 2012 CIYAM Open Developers
+// Copyright (c) 2012 CIYAM Developers
 
 #include <string>
 #include <fstream>
