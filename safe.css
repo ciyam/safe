@@ -28,6 +28,19 @@ h3
    margin-top: 10px;
 }
 
+h3.right-top
+{
+   color: #888;
+   width: auto;
+   float: right;
+   margin-top: 26px;
+}
+
+pre
+{
+   font-size: 15px;
+}
+
 body
 {
    font-family: 'Open Sans', sans-serif;
