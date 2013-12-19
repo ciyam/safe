@@ -29,9 +29,8 @@ transactions to safely spend all the "unspent outputs" by only using QR codes to
 offline and online computers.
 
 The intended usage of an address should be that it has a fixed purpose (such as being payment for a task) and
-that after its "unspent outputs" have been "spent" that it would not be used again. So after any transactions
-have been signed it would be recommended to in fact remove the "wallet" from the LiveOS USB. Also although it
-is not recommended to re-use an address the private key for any address can easily be restored if necessary.
+that after its "unspent outputs" have been "spent" that it would not be used again. Also although it is not
+recommended to re-use an address the private key for any address can easily be restored if necessary.
 
 To secure your private keys there are two separate pieces of information used in order to create a passphrase
 for use with GPG. The first part is called a "User Key" and the second is a 5-6 character Password. Of course
@@ -76,7 +75,7 @@ tux.pub.gpg.png
 tux.sec.gpg.00.png
 tux.sec.gpg.01.png
 
-(if using Windows on your online computer then omit the ./ prefixes so ./scan will just become scan)
+(if using Windows on your online computer then omit the ./ prefixes so "./scan" will just become "scan")
 
 ./scan tux.pub.gpg.txt
 (now hold the offline PC's screen close enough to the online computer's webcam to scan the code and after the
@@ -168,16 +167,8 @@ Then execute the "signtx" script with the address whose "unspent outputs" are to
 
 When prompted enter your 5-6 character password (which is used by scrypt to decrypt the GPG master passphrase
 and place it on the clipboard) and when prompted by GPG for the password simply "paste" (i.e. Shift + Insert)
-to continue. The private key will then be imported into the offline wallet and the raw transaction should now
-have been signed and the QR code "send_tx.png" should be opened in Firefox and enlarged to fill the screen so
-it's ready for the online computer to scan.
-
-It is recommended that even if you intend to use the address that was sent from later you should now kill the
-bitcoind task and remove the wallet (this way even if your USB is stolen the chances of losing any BTC at all
-should be virtually zero).
-
-kill 12345
-rm .bitcoin/wallet.dat
+to continue. The raw transaction should now have been signed and the QR code "send_tx.png" should be opened
+in Firefox and enlarged to fill the screen so it's ready for the online computer to scan.
 
 
 Sending a signed transaction

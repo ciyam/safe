@@ -2,8 +2,14 @@
 # Copyright (c) 2012-2013 CIYAM Developers
 
 if [ $# -lt 1 ]; then
- echo "Usage: scan [output file]"
+ echo "Usage: scan [output file] [[input file]]"
+elif [ -f $1 ]; then
+ echo "Error: File '$1' already exists."
+elif [ $# -gt 1 ]; then
+ ./zbarimg $2>$1
+ cat $1
 else
  ./zbarcam>$1
+ cat $1
 fi
 
