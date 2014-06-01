@@ -16,7 +16,7 @@ else
 
  ./getpriv $address
  pkey=`xclip -o`
- echo "./bitcoind -rpc_password=none signrawtransaction $raw_tx'[$pkey]'" >txscript
+ echo "./bitcoind -rpc_password=none signrawtransaction $raw_tx '[\"$pkey\"]'" >txscript
 
  chmod a+x txscript
  ./txscript >~signtx
