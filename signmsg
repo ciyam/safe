@@ -1,0 +1,24 @@
+#!/bin/bash
+# Copyright (c) 2013 CIYAM Developers
+
+if [ $# -lt 2 ]; then
+ echo "Usage: signmsg [public key] [message]"
+else
+ address=$1
+ message=$2
+
+ ./getpriv $address
+ pkey=`xclip -o`
+
+ ./bitcoind -rpc_password=none importprivkey $pkey
+
+ echo "$message" >~signmsg
+ ./bitcoind -rpc_password=none signmessage $adddress "$message" >>~signmsg
+
+ cp ~signmsg sign_msg
+ ./qr sign_msg
+
+ rm ~signmsg
+
+fi
+
