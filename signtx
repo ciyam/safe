@@ -2,7 +2,7 @@
 # Copyright (c) 2013 CIYAM Developers
 
 if [ $# -lt 1 ]; then
- echo "Usage: signtx [public key] [[image file]]"
+ echo "Usage: signtx [address or private key] [[image file]]"
 else
  address=$1
 
@@ -14,8 +14,12 @@ else
  fi
  raw_tx=`cat raw_tx`
 
- ./getpriv $address
- pkey=`xclip -o`
+ if [ "${address:0:1}" -ne "1" ]; then
+  pkey=$address
+ else
+  ./getpriv $address
+  pkey=`xclip -o`
+ fi
  echo "./bitcoind -rpc_password=none signrawtransaction $raw_tx '[\"$pkey\"]'" >txscript
 
  chmod a+x txscript
