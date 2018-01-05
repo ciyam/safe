@@ -1,5 +1,5 @@
 #!/bin/bash
-# Copyright (c) 2013 CIYAM Developers
+# Copyright (c) 2013-2018 CIYAM Developers
 
 if [ ! -f .bitcoin/bitcoin.conf ]; then
  if [ ! -d .bitcoin ]; then
