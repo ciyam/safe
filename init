@@ -2,6 +2,7 @@
 # Copyright (c) 2012-2018 CIYAM Developers
 
 ./hash_pwd
+password=`xclip -o`
 
 echo "Building ZBar, Bitcoin and Vanitygen while generating GPG keys..."
 ./build-zbar &
@@ -9,11 +10,7 @@ echo "Building ZBar, Bitcoin and Vanitygen while generating GPG keys..."
 ./build-vanitygen &
 g++ -o w w.cpp &
 
-password=`xclip -o`
-
 if [ ! "$1" = "restore" ]; then
- sleep 2
-
  tmp=$HOME/x
 
  echo "%echo Generating the master key..." >$tmp
