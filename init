@@ -4,6 +4,10 @@
 ./hash_pwd
 password=`xclip -o`
 
+if [ ! -d Desktop ]; then
+ mkdir Desktop
+fi
+
 echo "Building ZBar, Bitcoin and Vanitygen while generating GPG keys..."
 ./build-zbar &
 ./build-bitcoin &
